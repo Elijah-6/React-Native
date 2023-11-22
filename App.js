@@ -2,17 +2,29 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,} from 'react-native';
 import ImageViewer from './components/ImageViewer';
 import Button from './components/Button';
+import * as ImagePicker from 'expo-image-picker';
 
 const PlaceholderImage = require('./assets/images/background-image.png');
 
 export default function App() {
+
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({allowsEditing: true,quality: 1,});
+
+    if (!result.canceled) {
+      console.log(result);
+    } else {
+      alert('Image did not load successfully');
+    }
+  };
+
   return (
     <View style={styles.container}>
     <View style={styles.imageContainer}>
       <ImageViewer placeholderImageSource={PlaceholderImage} />
     </View>
     <View style={styles.footerContainer}>
-      <Button label="Choose a photo" theme= "primary" onPress={() => alert('Choose photo pressed')}/>
+      <Button label="Choose a photo" theme= "primary" onPress={pickImageAsync}/>
       <Button label="Use this photo"/>
     </View>
       {/* <Text style = {{color : '#fff'}}>Open up App.js to start working on your app!</Text> */}
